@@ -36,7 +36,7 @@ registerClientController.registerClient = async (req, res) => {
     const newClient = new clientsModel({
       nombre,
     correo,
-    contrasenia,
+    contrasenia: passwordHash,
     telefono,
     direccion,
       dui: dui || null,
@@ -85,7 +85,7 @@ registerClientController.registerClient = async (req, res) => {
     //2- Options: ¿A quien se lo voy a enviar?
     const mailOptions = {
       from: config.email.user,
-      to: email,
+      to: correo,
       subject: "Verificacion de correo",
       text: `Para verificar que eres dueño de la cuenta, utiliza este codigo ${verficationCode}\n Este codigo expira en dos horas\n`,
     };
@@ -117,7 +117,7 @@ registerClientController.verifyCodeEmail = async (req, res) => {
     // Para obtener el email y el codigo de verificacion
     // Que acabamos de guardar al momento de registrar
     const decoded = jsonwebtoken.verify(token, config.JWT.secret);
-    const { email, verficationCode: storedCode } = decoded;
+    const { correo, verficationCode: storedCode } = decoded;
 
     // Comparar el codigo recibido con el almacenado en el token
     if (verficationCode !== storedCode) {
@@ -125,7 +125,7 @@ registerClientController.verifyCodeEmail = async (req, res) => {
     }
 
     // busco al cliente
-    const client = await clientsModel.findOne({ email });
+    const client = await clientsModel.findOne({ correo });
     if (!client) {
       return res.json({ message: "Client not found" });
     }

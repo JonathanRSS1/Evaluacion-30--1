@@ -27,7 +27,7 @@ const MoviesSchema = new Schema(
         type: Number
     },
 
-    duracion:{
+    imagen:{
         type:String
     },
 },{

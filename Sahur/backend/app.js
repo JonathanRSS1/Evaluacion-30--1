@@ -15,6 +15,10 @@ import registerEmployessRoutes from "./src/routes/registerEmployees.js";
 import moviesRoute from "./src/routes/movies.js";
 
 
+import recoveryPasswordRoutes from "./src/routes/recoveryPassword.js";
+
+
+
 
 import cookieParser from "cookie-parser";
 
@@ -42,6 +46,11 @@ app.use("/api/movies", moviesRoute);
 app.use("/api/login", loginRoute);
 
 app.use("/api/logout", logoutRoute);
+
+app.use("/api/recoveryPassword", recoveryPasswordRoutes);
+
+
+
 
 
 
